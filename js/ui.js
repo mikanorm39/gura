@@ -81,7 +81,7 @@ Game.UI = {
     const s = Game.state;
     if (s.gameOver) return;
 
-    s.targetX = Phaser.Math.FloatBetween(0, c.GAUGE_WIDTH - s.targetWidth);
+    s.targetX = c.GAUGE_X + Phaser.Math.FloatBetween(0, c.GAUGE_WIDTH - s.targetWidth);
     Game.Indicator.resizeTargetZone();
     Game.Indicator.flashTargetZone(scene);
   },
