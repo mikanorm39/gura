@@ -1,5 +1,5 @@
 // resultScene.js 【B担当】
-// リザルト画面。SPACEでもう一度プレイ(Game)、ESCでスタート画面(Start)へ遷移する。
+// リザルト画面。SPACEでもう一度プレイ(Countdownを経てGame)、ESCでスタート画面(Start)へ遷移する。
 
 window.Game = window.Game || {};
 
@@ -42,7 +42,7 @@ class ResultScene extends Phaser.Scene {
       .setOrigin(0.5);
 
     this.input.keyboard.once('keydown-SPACE', () => {
-      this.scene.start('Game');
+      this.scene.start('Countdown');
     });
 
     this.input.keyboard.once('keydown-ESC', () => {

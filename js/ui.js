@@ -33,6 +33,12 @@ Game.UI = {
 
     this.feverText = scene.add.text(c.GAME_WIDTH / 2, 150, 'フィーバータイム！', Game.textStyle(20, { color: '#ff66aa' }))
       .setOrigin(0.5).setVisible(false);
+  },
+
+  // カウントダウン演出が終わってから呼ばれる：制限時間・ゾーン変化タイマーを開始する
+  // （create()の時点で動かしてしまうとカウントダウン中に時間やゾーンが進んでしまうため分離している）
+  startTimers(scene) {
+    const c = Game.CONFIG;
 
     scene.time.addEvent({
       delay: 1000,

@@ -1,4 +1,4 @@
-# バランスキープアクション（仮タイトル）
+# わるいてんいんをしばけ！！
 
 ランダムに左右へ揺れ動くインジケーターを、キー入力で目標ゾーンに留め続けてスコアを稼ぐアクションゲーム。制限時間は60秒。
 
@@ -8,7 +8,7 @@
 - → キー：インジケーターに右向きの力を加える
 - 緑ゾーン内にインジケーターを保つとスコア加算＆建物を起点に犯人オブジェクトが放物線を描いて落下
 - 緑ゾーンに3秒連続で留まるとフィーバータイム発動（セイレーンが出現し、犯人が2体同時に落下）。8秒経過で自動終了
-- 画面の流れ：スタート画面（SPACEでスタート）→ レベル選択画面（↑↓で選択、SPACEで決定）→ ゲーム画面（60秒）→ リザルト画面（SPACEでもう一度／ESCでスタート画面へ）
+- 画面の流れ：スタート画面（SPACEでスタート）→ レベル選択画面（↑↓で選択、SPACEで決定）→ カウントダウン画面（3・2・1・スタート！）→ ゲーム画面（60秒）→ リザルト画面（SPACEでもう一度→カウントダウンを経てゲーム画面／ESCでスタート画面へ）
 - リザルトでSPACEを押すと直前に選んだレベルのままリトライする。レベルを変えたい場合はESCでスタート画面へ戻り、選び直す
 - ゲーム画面中もESCキーでいつでもスタート画面へ戻れる（スコア等は破棄される）
 
@@ -30,6 +30,8 @@
 │   ├── indicator.js    【A担当】インジケーターの動き（ランダムウォーク＋入力）
 │   ├── ui.js           【B担当】タイマー・スコア・範囲判定
 │   ├── effects.js      【C担当】演出（背景・建物・犯人オブジェクト・フィーバー演出）
+│   ├── countdown.js        【B担当】カウントダウン演出本体（3・2・1・スタート！のテキスト表示）
+│   ├── countdownScene.js   【B担当】カウントダウン画面。裏でGame画面を並行起動しておく
 │   ├── startScene.js       【B担当】スタート画面
 │   ├── levelSelectScene.js 【B担当】レベル選択画面（ノーマル/ハード）
 │   ├── resultScene.js      【B担当】リザルト画面
@@ -38,7 +40,14 @@
 └── README.md
 ```
 
-各ファイルは `window.Game` というグローバルな名前空間を共有します（ビルド無しのため import/export は使わず、`Game.XXX` にぶら下げる方式）。`index.html` でのスクリプト読み込み順（gameState → indicator → ui → effects → startScene → levelSelectScene → resultScene → main）を変えないでください。
+各ファイルは `window.Game` というグローバルな名前空間を共有します（ビルド無しのため import/export は使わず、`Game.XXX` にぶら下げる方式）。`index.html` でのスクリプト読み込み順（gameState → indicator → ui → effects → countdown → countdownScene → startScene → levelSelectScene → resultScene → main）を変えないでください。
+建物の横揺れ（`js/effects.js`）は`Game.CONFIG.BUILDING_SHAKE_START_DELAY`（暫定値: 3000ms）だけ遅らせてから始まるようにしており、ちょうどカウントダウンの「スタート！」表示に合わせて揺れ出す。
+
+### ゲーム画面遷移時のラグ対策（Countdown画面でGame画面を裏読みする）
+
+ゲーム画面（`GameScene`）が読み込む建物・犯人画像・BGMは合計10MB超あり、レベル選択決定と同時に`GameScene.preload()`任せで読み込むと遷移が大きく止まって見える。これを避けるため、`GameScene`は`levelSelectScene.js`や`resultScene.js`から直接`scene.start('Game')`されることはなく、必ず`countdownScene.js`（`Countdown`画面）を経由する。
+
+`countdownScene.js`の`create()`では`this.scene.launch('Game')`でGame画面を裏で並行起動しつつ`this.scene.bringToTop()`で自分自身（Countdown）を手前に表示し続ける。Game画面はこの間に`preload()`（アセット読み込み）と`create()`（画面構築）を済ませ、完了すると`Phaser.Scenes.Events.CREATE`イベントが発火する。Countdown側はこのイベントと、自身のカウントダウン演出（`countdown.js`の`Game.Countdown.show()`）が両方終わるのを待ってから、Gameへ`'start-game'`イベントを送って初めて時間・BGM・操作を開始させ、自身(`Countdown`)を`stop()`する（＝重ねて表示していたCountdownが消え、既に構築済みのGame画面がそのまま見える）。読み込みがカウントダウンより長くかかった場合も、両方揃うまで「スタート！」表示のまま待つだけなので、崩れた見た目にはならない。
 
 ## 共有状態（gameState.js）
 
@@ -79,6 +88,10 @@
 `assets/fonts/chika-Regular.ttf` を全画面共通フォントとして使用する。`index.html`で`@font-face`定義（フォント名: `Chika`）し、`Game.CONFIG.FONT_FAMILY`（`js/gameState.js`）経由で各`add.text()`の`fontFamily`に指定する。`js/main.js`でフォント読み込み完了を待ってからPhaserゲームを起動するため、初回描画で既定フォントにフォールバックすることはない。
 画面内の表示テキストは漢字を使わず、ひらがな・カタカナのみで統一している。
 テキストのスタイルは`Game.textStyle(baseFontSize, extra)`（`js/gameState.js`）で組み立てる。`Game.CONFIG.FONT_SCALE`（暫定値: 1.5）を全テキストの基準サイズに掛け、`Game.CONFIG.FONT_STROKE_COLOR`（暫定値: 白）で縁取りを付ける。文字色が縁取り色と同じ（白文字）場合は縁取りが見えないため自動的に付けない。サイズ・縁取りを調整したい場合はこの2つの値を変更すればよい。
+
+## 画面サイズについて
+
+`js/main.js`のPhaser設定で`scale.mode: Phaser.Scale.FIT`・`scale.autoCenter: Phaser.Scale.CENTER_BOTH`を指定し、内部解像度（`Game.CONFIG.GAME_WIDTH x GAME_HEIGHT`＝800x600）を保ったままブラウザのウィンドウいっぱいに拡大縮小表示する。テキストや画像などの見た目はすべてこの内部解像度で描画されたものが一括で拡大縮小されるため、ウィンドウサイズを変えても文字・assetsのサイズ比率は崩れない（アスペクト比が異なる場合は上下または左右に余白が出る）。
 
 ## フィーバータイムについて
 

@@ -18,7 +18,7 @@ class StartScene extends Phaser.Scene {
     this.add.image(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2, 'menuBackground')
       .setDisplaySize(c.GAME_WIDTH, c.GAME_HEIGHT);
 
-    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 - 60, 'バランスキープアクション', Game.textStyle(36, { color: '#ffffff' }))
+    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 - 60, 'わるいてんいんをしばけ！！', Game.textStyle(36, { color: '#ffffff' }))
       .setOrigin(0.5);
 
     this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2, '← / → キーでインジケーターをみどりゾーンにたもて！', Game.textStyle(16, { color: '#aaaaaa' }))

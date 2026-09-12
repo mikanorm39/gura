@@ -1,5 +1,5 @@
 // levelSelectScene.js 【B担当】
-// レベル選択画面。↑↓で選択、SPACEで決定してゲーム画面(Game)へ遷移する。
+// レベル選択画面。↑↓で選択、SPACEで決定してカウントダウン画面(Countdown)へ遷移する。
 
 window.Game = window.Game || {};
 
@@ -58,6 +58,6 @@ class LevelSelectScene extends Phaser.Scene {
 
   confirmSelection() {
     Game.applyLevel(this.options[this.selectedIndex]);
-    this.scene.start('Game');
+    this.scene.start('Countdown');
   }
 }

@@ -11,20 +11,20 @@ Game.Effects = {
   building: null,
   siren: null,
 
+  // 呼び出し元（levelSelectScene.js / main.js）どちらから先に読んでも二重ダウンロード・
+  // 二重デコードにならないよう、既に読み込み済みのキーはスキップする。
   preload(scene) {
     const c = Game.CONFIG;
-    c.BUILDING_IMAGE_KEYS.forEach((key, i) => {
-      scene.load.image(key, c.BUILDING_IMAGE_FILES[i]);
-    });
-    c.SUSPECT_IMAGE_KEYS.forEach((key, i) => {
-      scene.load.image(key, c.SUSPECT_IMAGE_FILES[i]);
-    });
-    c.FEVER_SUSPECT_IMAGE_KEYS.forEach((key, i) => {
-      scene.load.image(key, c.FEVER_SUSPECT_IMAGE_FILES[i]);
-    });
-    scene.load.image('sky', c.SKY_IMAGE_FILE);
-    scene.load.image('sea', c.SEA_IMAGE_FILE);
-    scene.load.image('siren', c.SIREN_IMAGE_FILE);
+    const loadImage = (key, file) => {
+      if (!scene.textures.exists(key)) scene.load.image(key, file);
+    };
+
+    c.BUILDING_IMAGE_KEYS.forEach((key, i) => loadImage(key, c.BUILDING_IMAGE_FILES[i]));
+    c.SUSPECT_IMAGE_KEYS.forEach((key, i) => loadImage(key, c.SUSPECT_IMAGE_FILES[i]));
+    c.FEVER_SUSPECT_IMAGE_KEYS.forEach((key, i) => loadImage(key, c.FEVER_SUSPECT_IMAGE_FILES[i]));
+    loadImage('sky', c.SKY_IMAGE_FILE);
+    loadImage('sea', c.SEA_IMAGE_FILE);
+    loadImage('siren', c.SIREN_IMAGE_FILE);
   },
 
   create(scene) {
@@ -61,12 +61,15 @@ Game.Effects = {
       .setDepth(c.DEPTH_SEA);
 
     // 通常時：地震のような不規則な横揺れ（滑らかなTweenではなく短い間隔でランダムに位置をずらす）
-    scene.time.addEvent({
-      delay: c.BUILDING_SHAKE_INTERVAL,
-      loop: true,
-      callback: () => {
-        this.building.x = this.baseX + Phaser.Math.Between(-c.BUILDING_SHAKE_AMPLITUDE, c.BUILDING_SHAKE_AMPLITUDE);
-      }
+    // カウントダウン演出の間は揺らさず、BUILDING_SHAKE_START_DELAYぶん経ってから揺れ始める
+    scene.time.delayedCall(c.BUILDING_SHAKE_START_DELAY, () => {
+      scene.time.addEvent({
+        delay: c.BUILDING_SHAKE_INTERVAL,
+        loop: true,
+        callback: () => {
+          this.building.x = this.baseX + Phaser.Math.Between(-c.BUILDING_SHAKE_AMPLITUDE, c.BUILDING_SHAKE_AMPLITUDE);
+        }
+      });
     });
   },
 

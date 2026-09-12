@@ -59,6 +59,7 @@ Game.CONFIG = {
   BUILDING_DISPLAY_HEIGHT: 480,
   BUILDING_SHAKE_AMPLITUDE: 6,   // 横揺れの振れ幅(px)
   BUILDING_SHAKE_INTERVAL: 70,   // 横揺れの更新間隔(ms、短いほど震えが細かくなる)
+  BUILDING_SHAKE_START_DELAY: 3000, // カウントダウン開始から横揺れが始まるまでの遅延(ms)
   BUILDING_IMAGE_KEYS: ['building1', 'building2', 'building3'], // スコアに応じて切り替わる建物画像（assets/building_1〜3.png に対応）
   BUILDING_IMAGE_FILES: ['assets/building_1.png', 'assets/building_2.png', 'assets/building_3.png'],
   BUILDING_SCORE_THRESHOLDS: [400, 700], // このスコアに到達するとそれぞれ2枚目・3枚目に切り替わる（暫定値・要調整）

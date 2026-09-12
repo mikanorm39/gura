@@ -1,9 +1,11 @@
 // main.js
-// 各モジュール（indicator.js / ui.js / effects.js）と各画面（startScene.js / levelSelectScene.js / resultScene.js）を繋ぐ司令塔。
+// 各モジュール（indicator.js / ui.js / effects.js）と各画面（startScene.js / levelSelectScene.js / countdownScene.js / resultScene.js）を繋ぐ司令塔。
 // 基本的にこのファイルは触らない。役割を追加・変更したい場合はチームに相談。
 //
-// 画面の流れ： Start → LevelSelect → Game → Result → Start or Game
-// （Game中はESCキーでいつでもStartへ戻れる）
+// 画面の流れ： Start → LevelSelect → Countdown → Game → Result → Start or Game
+// （CountdownはGameを裏で並行起動(scene.launch)しておき、カウントダウンが終わって
+// 　Gameの準備も整ったタイミングで'start-game'イベントを送ってバトンタッチする。
+// 　Game中はESCキーでいつでもStartへ戻れる）
 
 window.Game = window.Game || {};
 
@@ -13,8 +15,9 @@ class GameScene extends Phaser.Scene {
   }
 
   preload() {
+    // レベル選択画面で先読みが完了していれば、ここではキャッシュ済みのため即座に完了する
     Game.Effects.preload(this);
-    this.load.audio('bgm', Game.CONFIG.BGM_FILE);
+    if (!this.cache.audio.exists('bgm')) this.load.audio('bgm', Game.CONFIG.BGM_FILE);
   }
 
   create() {
@@ -25,19 +28,27 @@ class GameScene extends Phaser.Scene {
     Game.Effects.create(this);
     Game.UI.create(this);
 
-    // ゲーム開始と同時にBGMを再生し、この画面を離れるタイミングで停止する
     const bgm = this.sound.add('bgm', { loop: true, volume: Game.CONFIG.BGM_VOLUME });
-    bgm.play();
     this.events.once('shutdown', () => bgm.stop());
 
-    // ゲーム中にESCキーでタイトル画面へ戻れるようにする
+    // ゲーム中にESCキーでタイトル画面へ戻れるようにする（カウントダウン中のCountdownも一緒に閉じる）
     this.input.keyboard.once('keydown-ESC', () => {
+      this.scene.stop('Countdown');
       this.scene.start('Start');
+    });
+
+    // Countdown画面からの合図があるまでは時間・BGM・操作反映を止めておく。
+    // （このcreate()が終わった時点でCountdown側に「Game準備完了」の合図(CREATEイベント)が届く）
+    this.countdownActive = true;
+    this.events.once('start-game', () => {
+      this.countdownActive = false;
+      Game.UI.startTimers(this);
+      bgm.play();
     });
   }
 
   update(time, delta) {
-    if (Game.state.gameOver) return;
+    if (this.countdownActive || Game.state.gameOver) return;
     Game.Indicator.update(this, time, delta);
     Game.UI.update(this, time, delta);
     Game.Effects.update(this);
@@ -46,11 +57,17 @@ class GameScene extends Phaser.Scene {
 
 const config = {
   type: Phaser.AUTO,
-  width: Game.CONFIG.GAME_WIDTH,
-  height: Game.CONFIG.GAME_HEIGHT,
   parent: 'game-container',
   backgroundColor: '#0a0a12',
-  scene: [StartScene, LevelSelectScene, GameScene, ResultScene]
+  // ブラウザいっぱいに表示しつつ、内部解像度(GAME_WIDTH x GAME_HEIGHT)を
+  // 保ったまま拡大縮小する（テキストやassetsも一緒に比率が変わる）。
+  scale: {
+    mode: Phaser.Scale.FIT,
+    autoCenter: Phaser.Scale.CENTER_BOTH,
+    width: Game.CONFIG.GAME_WIDTH,
+    height: Game.CONFIG.GAME_HEIGHT
+  },
+  scene: [StartScene, LevelSelectScene, CountdownScene, GameScene, ResultScene]
 };
 
 // カスタムフォント（Chika）を読み込んでからゲームを開始する（未読み込みだと初回描画が既定フォントになるため）
