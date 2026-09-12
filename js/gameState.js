@@ -14,7 +14,10 @@ Game.CONFIG = {
   GAUGE_HEIGHT: 40,
   GAUGE_Y: 90,
 
-  TARGET_RATIO: 0.22, // 目標ゾーンの幅（ゲージ幅に対する割合）
+  TARGET_RATIO: 0.22, // 目標ゾーンの初期幅（ゲージ幅に対する割合）
+  TARGET_SHRINK_INTERVAL: 15000, // 目標ゾーンを縮小する間隔(ms)
+  TARGET_SHRINK_RATIO: 0.75,     // 縮小時に幅へ掛ける倍率
+  TARGET_MIN_WIDTH: 60,          // 目標ゾーンの最小幅(px)
 
   MAX_SPEED: 260,              // インジケーターの最大速度(px/秒)
   DRIFT_JITTER: 90,            // ランダム変動の強さ(加速度)
@@ -29,8 +32,6 @@ Game.CONFIG = {
 
 // 派生値（自動計算。直接編集しない）
 Game.CONFIG.GAUGE_X = (Game.CONFIG.GAME_WIDTH - Game.CONFIG.GAUGE_WIDTH) / 2;
-Game.CONFIG.TARGET_WIDTH = Game.CONFIG.GAUGE_WIDTH * Game.CONFIG.TARGET_RATIO;
-Game.CONFIG.TARGET_X = Game.CONFIG.GAUGE_X + (Game.CONFIG.GAUGE_WIDTH - Game.CONFIG.TARGET_WIDTH) / 2;
 
 // ---- 実行中に変化する状態 ----
 Game.state = {};
@@ -43,6 +44,9 @@ Game.resetState = function () {
   Game.state.lastDriftChange = 0;
   Game.state.lastScoreTick = 0;
   Game.state.lastPulse = 0;
+  Game.state.lastShrink = 0;
+  Game.state.targetWidth = c.GAUGE_WIDTH * c.TARGET_RATIO; // 目標ゾーンの幅(px、時間経過で縮小)
+  Game.state.targetX = c.GAUGE_X + (c.GAUGE_WIDTH - Game.state.targetWidth) / 2;
   Game.state.score = 0;
   Game.state.timeLeft = c.TIME_LIMIT;
   Game.state.gameOver = false;

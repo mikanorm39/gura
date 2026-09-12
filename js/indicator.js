@@ -21,9 +21,9 @@ Game.Indicator = {
     ).setStrokeStyle(2, 0x555577);
 
     this.targetZone = scene.add.rectangle(
-      c.TARGET_X + c.TARGET_WIDTH / 2,
+      Game.state.targetX + Game.state.targetWidth / 2,
       c.GAUGE_Y,
-      c.TARGET_WIDTH,
+      Game.state.targetWidth,
       c.GAUGE_HEIGHT,
       0x33cc66,
       0.55
@@ -40,6 +40,14 @@ Game.Indicator = {
     scene.cursors = scene.input.keyboard.createCursorKeys();
   },
 
+  // 目標ゾーンの幅・位置が変わった際に見た目を追従させる（ui.jsの縮小処理から呼ばれる）
+  resizeTargetZone() {
+    const c = Game.CONFIG;
+    const s = Game.state;
+    this.targetZone.setSize(s.targetWidth, c.GAUGE_HEIGHT);
+    this.targetZone.x = s.targetX + s.targetWidth / 2;
+  },
+
   update(scene, time, delta) {
     const c = Game.CONFIG;
     const s = Game.state;
@@ -51,10 +59,10 @@ Game.Indicator = {
       s.lastDriftChange = time;
     }
 
-    // プレイヤー入力：左キー→右向きの反発力、右キー→左向きの反発力
+    // プレイヤー入力：左キー→左向きの力、右キー→右向きの力
     let inputAccel = 0;
-    if (scene.cursors.left.isDown) inputAccel += c.PLAYER_FORCE;
-    if (scene.cursors.right.isDown) inputAccel -= c.PLAYER_FORCE;
+    if (scene.cursors.left.isDown) inputAccel -= c.PLAYER_FORCE;
+    if (scene.cursors.right.isDown) inputAccel += c.PLAYER_FORCE;
 
     s.indicatorVel += (s.driftAccel + inputAccel) * dt;
     s.indicatorVel *= c.FRICTION;
