@@ -25,31 +25,37 @@ class ResultScene extends Phaser.Scene {
 
     this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 - 80, 'リザルト', {
       fontSize: '36px',
+      fontFamily: c.FONT_FAMILY,
       color: '#ffffff'
     }).setOrigin(0.5);
 
-    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 - 20, `Score: ${this.finalScore}`, {
+    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 - 20, `スコア：${this.finalScore}`, {
       fontSize: '28px',
+      fontFamily: c.FONT_FAMILY,
       color: '#ffff66'
     }).setOrigin(0.5);
 
-    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 + 10, `Fever回数: ${this.feverCount}`, {
+    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 + 10, `フィーバーかいすう：${this.feverCount}`, {
       fontSize: '16px',
+      fontFamily: c.FONT_FAMILY,
       color: '#ff66aa'
     }).setOrigin(0.5);
 
-    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 + 35, `Level: ${Game.LEVEL_LABELS[Game.state.level]}`, {
+    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 + 35, `レベル：${Game.LEVEL_LABELS[Game.state.level]}`, {
       fontSize: '16px',
+      fontFamily: c.FONT_FAMILY,
       color: '#88ccff'
     }).setOrigin(0.5);
 
-    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 + 65, 'SPACE：もう一度プレイ', {
+    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 + 65, 'スペース：もういちどプレイ', {
       fontSize: '18px',
+      fontFamily: c.FONT_FAMILY,
       color: '#aaaaaa'
     }).setOrigin(0.5);
 
-    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 + 95, 'ESC：スタート画面へ', {
+    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 + 95, 'エスケープ：スタートがめんへ', {
       fontSize: '18px',
+      fontFamily: c.FONT_FAMILY,
       color: '#aaaaaa'
     }).setOrigin(0.5);
 

@@ -17,6 +17,9 @@ Game.CONFIG = {
   FRICTION: 0.985,             // 毎フレームの速度減衰率
   BOUNCE_DAMPING: -0.4,        // 端で跳ね返るときの反発係数
 
+  // ---- 表示テキストの共通フォント ----
+  FONT_FAMILY: "'Chika', sans-serif", // assets/fonts/chika-Regular.ttf（index.htmlで@font-face定義）
+
   SCORE_PER_SECOND: 20,            // 目標ゾーン内にいる間の1秒あたりスコア
 
   // ---- メニュー画面（Start / LevelSelect / Result）の共通背景 ----
@@ -113,8 +116,8 @@ Game.LEVEL_LABELS = {
 };
 
 Game.LEVEL_DESCRIPTIONS = {
-  normal: '標準の難易度',
-  hard: '揺れが大きく、目標ゾーンも狭く・速く変化する高難易度'
+  normal: 'ひょうじゅんのなんいど',
+  hard: 'ゆれがおおきく、もくひょうゾーンもせまく・はやくへんかするこうなんいど'
 };
 
 // 選んだレベルのパラメータをGame.CONFIGへ反映する

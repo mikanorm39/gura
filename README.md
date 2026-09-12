@@ -69,6 +69,11 @@
 
 `assets/背景.jpg` を `js/startScene.js` / `js/levelSelectScene.js` / `js/resultScene.js` の3画面（ゲーム画面以外の全画面）でそれぞれ読み込み、画面全体に表示する。ゲーム画面（`js/effects.js`）は独自の空・海の背景を使うため対象外。
 
+## フォントについて
+
+`assets/fonts/chika-Regular.ttf` を全画面共通フォントとして使用する。`index.html`で`@font-face`定義（フォント名: `Chika`）し、`Game.CONFIG.FONT_FAMILY`（`js/gameState.js`）経由で各`add.text()`の`fontFamily`に指定する。`js/main.js`でフォント読み込み完了を待ってからPhaserゲームを起動するため、初回描画で既定フォントにフォールバックすることはない。
+画面内の表示テキストは漢字を使わず、ひらがな・カタカナのみで統一している。
+
 ## フィーバータイムについて
 
 - `Game.CONFIG.FEVER_TRIGGER_DURATION`（暫定値: 3000ms）：目標ゾーンに連続でこの時間留まると発動

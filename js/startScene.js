@@ -20,16 +20,19 @@ class StartScene extends Phaser.Scene {
 
     this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 - 60, 'バランスキープアクション', {
       fontSize: '36px',
+      fontFamily: c.FONT_FAMILY,
       color: '#ffffff'
     }).setOrigin(0.5);
 
-    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2, '← / → キーでインジケーターを緑ゾーンに保て！', {
+    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2, '← / → キーでインジケーターをみどりゾーンにたもて！', {
       fontSize: '16px',
+      fontFamily: c.FONT_FAMILY,
       color: '#aaaaaa'
     }).setOrigin(0.5);
 
-    const prompt = this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 + 60, 'SPACEキーでスタート', {
+    const prompt = this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 + 60, 'スペースキーでスタート', {
       fontSize: '22px',
+      fontFamily: c.FONT_FAMILY,
       color: '#ffff66'
     }).setOrigin(0.5);
 

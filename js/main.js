@@ -41,4 +41,13 @@ const config = {
   scene: [StartScene, LevelSelectScene, GameScene, ResultScene]
 };
 
-new Phaser.Game(config);
+// カスタムフォント（Chika）を読み込んでからゲームを開始する（未読み込みだと初回描画が既定フォントになるため）
+function startGame() {
+  new Phaser.Game(config);
+}
+
+if (document.fonts && document.fonts.load) {
+  document.fonts.load(`16px "Chika"`).then(startGame).catch(startGame);
+} else {
+  startGame();
+}

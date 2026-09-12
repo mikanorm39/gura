@@ -14,30 +14,34 @@ Game.UI = {
   create(scene) {
     const c = Game.CONFIG;
 
-    this.scoreText = scene.add.text(20, 20, 'Score: 0', {
+    this.scoreText = scene.add.text(20, 20, 'スコア：0', {
       fontSize: '28px',
+      fontFamily: c.FONT_FAMILY,
       color: '#ffffff'
     });
 
-    this.timeText = scene.add.text(c.GAME_WIDTH - 160, 20, `Time: ${c.TIME_LIMIT}`, {
+    this.timeText = scene.add.text(c.GAME_WIDTH - 160, 20, `タイム：${c.TIME_LIMIT}`, {
       fontSize: '28px',
+      fontFamily: c.FONT_FAMILY,
       color: '#ffffff'
     });
 
-    scene.add.text(20, 55, `Level: ${Game.LEVEL_LABELS[Game.state.level]}`, {
+    scene.add.text(20, 55, `レベル：${Game.LEVEL_LABELS[Game.state.level]}`, {
       fontSize: '14px',
+      fontFamily: c.FONT_FAMILY,
       color: '#88ccff'
     });
 
     scene.add.text(
       c.GAME_WIDTH / 2,
       30,
-      '← / → キーでインジケーターを緑ゾーンに保て！',
-      { fontSize: '14px', color: '#aaaaaa' }
+      '← / → キーでインジケーターをみどりゾーンにたもて！',
+      { fontSize: '14px', fontFamily: c.FONT_FAMILY, color: '#aaaaaa' }
     ).setOrigin(0.5);
 
-    this.feverText = scene.add.text(c.GAME_WIDTH / 2, 60, 'FEVER TIME!', {
+    this.feverText = scene.add.text(c.GAME_WIDTH / 2, 60, 'フィーバータイム！', {
       fontSize: '20px',
+      fontFamily: c.FONT_FAMILY,
       color: '#ff66aa'
     }).setOrigin(0.5).setVisible(false);
 
@@ -61,7 +65,7 @@ Game.UI = {
     const s = Game.state;
     if (s.gameOver) return;
     s.timeLeft -= 1;
-    this.timeText.setText(`Time: ${Math.max(s.timeLeft, 0)}`);
+    this.timeText.setText(`タイム：${Math.max(s.timeLeft, 0)}`);
     if (s.timeLeft <= 0) this.endGame(scene);
   },
 
@@ -101,7 +105,7 @@ Game.UI = {
 
     if (time - s.lastScoreTick > 100) {
       s.score += Math.round(c.SCORE_PER_SECOND * 0.1);
-      this.scoreText.setText(`Score: ${s.score}`);
+      this.scoreText.setText(`スコア：${s.score}`);
       s.lastScoreTick = time;
     }
 
