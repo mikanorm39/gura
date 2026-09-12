@@ -14,6 +14,7 @@ class GameScene extends Phaser.Scene {
 
   preload() {
     Game.Effects.preload(this);
+    this.load.audio('bgm', Game.CONFIG.BGM_FILE);
   }
 
   create() {
@@ -23,6 +24,11 @@ class GameScene extends Phaser.Scene {
     Game.Indicator.create(this);
     Game.Effects.create(this);
     Game.UI.create(this);
+
+    // ゲーム開始と同時にBGMを再生し、この画面を離れるタイミングで停止する
+    const bgm = this.sound.add('bgm', { loop: true, volume: Game.CONFIG.BGM_VOLUME });
+    bgm.play();
+    this.events.once('shutdown', () => bgm.stop());
 
     // ゲーム中にESCキーでタイトル画面へ戻れるようにする
     this.input.keyboard.once('keydown-ESC', () => {

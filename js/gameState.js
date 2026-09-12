@@ -24,6 +24,10 @@ Game.CONFIG = {
 
   SCORE_PER_SECOND: 20,            // 目標ゾーン内にいる間の1秒あたりスコア
 
+  // ---- ゲーム中のBGM ----
+  BGM_FILE: 'assets/ドリームパーク.mp3',
+  BGM_VOLUME: 0.5,
+
   // ---- メニュー画面（Start / LevelSelect / Result）の共通背景 ----
   MENU_BACKGROUND_FILE: 'assets/背景.jpg',
 

@@ -66,6 +66,10 @@
 
 画像が無い場合はPhaserの標準の欠損テクスチャ表示になる。落下の軌道は`Game.CONFIG.SUSPECT_TRAJECTORIES`に複数パターン（通常／左右に大きく飛ぶバージョンなど）を登録でき、`weight`の比率でランダムに選ばれる。回転量は`SUSPECT_SPIN_DEGREES`、サイズは`SUSPECT_DISPLAY_WIDTH/HEIGHT`で調整できる。
 
+## BGMについて
+
+`assets/ドリームパーク.mp3`（`Game.CONFIG.BGM_FILE`）をゲーム画面（`js/main.js`のGameScene）開始時にループ再生する。音量は`Game.CONFIG.BGM_VOLUME`（暫定値: 0.5）で調整可能。ゲーム画面を離れる（リザルトへ進む／ESCでタイトルへ戻る）と自動的に停止する。
+
 ## メニュー画面の背景について
 
 `assets/背景.jpg` を `js/startScene.js` / `js/levelSelectScene.js` / `js/resultScene.js` の3画面（ゲーム画面以外の全画面）でそれぞれ読み込み、画面全体に表示する。ゲーム画面（`js/effects.js`）は独自の空・海の背景を使うため対象外。
