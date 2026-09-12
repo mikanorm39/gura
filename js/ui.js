@@ -14,36 +14,25 @@ Game.UI = {
   create(scene) {
     const c = Game.CONFIG;
 
-    this.scoreText = scene.add.text(20, 20, 'スコア：0', {
-      fontSize: '28px',
-      fontFamily: c.FONT_FAMILY,
-      color: '#ffffff'
-    });
+    this.scoreText = scene.add.text(20, 20, 'スコア：0', Game.textStyle(28, { color: '#ffffff' }));
 
-    this.timeText = scene.add.text(c.GAME_WIDTH - 160, 20, `タイム：${c.TIME_LIMIT}`, {
-      fontSize: '28px',
-      fontFamily: c.FONT_FAMILY,
-      color: '#ffffff'
-    });
+    this.timeText = scene.add.text(c.GAME_WIDTH - 20, 20, `タイム：${c.TIME_LIMIT}`, Game.textStyle(28, { color: '#ffffff' }))
+      .setOrigin(1, 0);
 
-    scene.add.text(20, 55, `レベル：${Game.LEVEL_LABELS[Game.state.level]}`, {
-      fontSize: '14px',
-      fontFamily: c.FONT_FAMILY,
-      color: '#88ccff'
-    });
+    scene.add.text(20, 70, `レベル：${Game.LEVEL_LABELS[Game.state.level]}`, Game.textStyle(14, { color: '#88ccff' }));
+
+    scene.add.text(c.GAME_WIDTH - 20, 70, 'エスケープ：タイトルへ', Game.textStyle(14, { color: '#88ccff' }))
+      .setOrigin(1, 0);
 
     scene.add.text(
       c.GAME_WIDTH / 2,
-      30,
+      110,
       '← / → キーでインジケーターをみどりゾーンにたもて！',
-      { fontSize: '14px', fontFamily: c.FONT_FAMILY, color: '#aaaaaa' }
+      Game.textStyle(14, { color: '#aaaaaa' })
     ).setOrigin(0.5);
 
-    this.feverText = scene.add.text(c.GAME_WIDTH / 2, 60, 'フィーバータイム！', {
-      fontSize: '20px',
-      fontFamily: c.FONT_FAMILY,
-      color: '#ff66aa'
-    }).setOrigin(0.5).setVisible(false);
+    this.feverText = scene.add.text(c.GAME_WIDTH / 2, 150, 'フィーバータイム！', Game.textStyle(20, { color: '#ff66aa' }))
+      .setOrigin(0.5).setVisible(false);
 
     scene.time.addEvent({
       delay: 1000,

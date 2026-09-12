@@ -21,31 +21,19 @@ class LevelSelectScene extends Phaser.Scene {
     this.options = ['normal', 'hard'];
     this.selectedIndex = Math.max(this.options.indexOf(Game.state.level), 0);
 
-    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 - 120, 'レベルせんたく', {
-      fontSize: '36px',
-      fontFamily: c.FONT_FAMILY,
-      color: '#ffffff'
-    }).setOrigin(0.5);
+    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 - 120, 'レベルせんたく', Game.textStyle(36, { color: '#ffffff' }))
+      .setOrigin(0.5);
 
     this.optionTexts = this.options.map((key, i) =>
-      this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 - 30 + i * 50, '', {
-        fontSize: '26px',
-        fontFamily: c.FONT_FAMILY,
-        color: '#aaaaaa'
-      }).setOrigin(0.5)
+      this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 - 30 + i * 50, '', Game.textStyle(26, { color: '#aaaaaa' }))
+        .setOrigin(0.5)
     );
 
-    this.descText = this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 + 90, '', {
-      fontSize: '16px',
-      fontFamily: c.FONT_FAMILY,
-      color: '#88ccff'
-    }).setOrigin(0.5);
+    this.descText = this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 + 90, '', Game.textStyle(16, { color: '#88ccff', align: 'center' }))
+      .setOrigin(0.5);
 
-    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 + 140, '↑↓：せんたく　スペース：けってい', {
-      fontSize: '14px',
-      fontFamily: c.FONT_FAMILY,
-      color: '#aaaaaa'
-    }).setOrigin(0.5);
+    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 + 160, '↑↓：せんたく　スペース：けってい', Game.textStyle(14, { color: '#aaaaaa' }))
+      .setOrigin(0.5);
 
     this.refreshSelection();
 

@@ -3,6 +3,7 @@
 // 基本的にこのファイルは触らない。役割を追加・変更したい場合はチームに相談。
 //
 // 画面の流れ： Start → LevelSelect → Game → Result → Start or Game
+// （Game中はESCキーでいつでもStartへ戻れる）
 
 window.Game = window.Game || {};
 
@@ -22,6 +23,11 @@ class GameScene extends Phaser.Scene {
     Game.Indicator.create(this);
     Game.Effects.create(this);
     Game.UI.create(this);
+
+    // ゲーム中にESCキーでタイトル画面へ戻れるようにする
+    this.input.keyboard.once('keydown-ESC', () => {
+      this.scene.start('Start');
+    });
   }
 
   update(time, delta) {
