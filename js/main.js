@@ -18,6 +18,7 @@ class GameScene extends Phaser.Scene {
     // レベル選択画面で先読みが完了していれば、ここではキャッシュ済みのため即座に完了する
     Game.Effects.preload(this);
     if (!this.cache.audio.exists('bgm')) this.load.audio('bgm', Game.CONFIG.BGM_FILE);
+    if (!this.cache.audio.exists('feverBgm')) this.load.audio('feverBgm', Game.CONFIG.FEVER_BGM_FILE);
   }
 
   create() {
@@ -29,7 +30,22 @@ class GameScene extends Phaser.Scene {
     Game.UI.create(this);
 
     const bgm = this.sound.add('bgm', { loop: true, volume: Game.CONFIG.BGM_VOLUME });
-    this.events.once('shutdown', () => bgm.stop());
+    const feverBgm = this.sound.add('feverBgm', { loop: true, volume: Game.CONFIG.FEVER_BGM_VOLUME });
+    this.events.once('shutdown', () => {
+      bgm.stop();
+      feverBgm.stop();
+    });
+
+    // フィーバータイムの開始/終了時にui.jsから呼ばれる：通常BGMとフィーバーBGMを切り替える
+    this.setFeverBgm = (active) => {
+      if (active) {
+        bgm.pause();
+        feverBgm.play();
+      } else {
+        feverBgm.stop();
+        bgm.resume();
+      }
+    };
 
     // ゲーム中にESCキーでタイトル画面へ戻れるようにする（カウントダウン中のCountdownも一緒に閉じる）
     this.input.keyboard.once('keydown-ESC', () => {

@@ -30,7 +30,7 @@ Game.Effects = {
   create(scene) {
     const c = Game.CONFIG;
 
-    this.baseX = c.GAME_WIDTH / 2;
+    this.baseX = c.GAME_WIDTH / 2 + c.BUILDING_X_OFFSET;
 
     // 空：最背面
     scene.add.image(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2, 'sky')

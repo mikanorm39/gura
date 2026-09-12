@@ -123,11 +123,13 @@ Game.UI = {
       s.feverCount += 1;
       this.feverText.setVisible(true);
       Game.Effects.setFeverVisual(scene, true);
+      scene.setFeverBgm(true);
     } else if (s.feverActive && time >= s.feverEndsAt) {
       s.feverActive = false;
       s.inZoneStreak = 0;
       this.feverText.setVisible(false);
       Game.Effects.setFeverVisual(scene, false);
+      scene.setFeverBgm(false);
     }
   },
 

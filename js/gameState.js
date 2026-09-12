@@ -27,6 +27,8 @@ Game.CONFIG = {
   // ---- ゲーム中のBGM ----
   BGM_FILE: 'assets/ドリームパーク.mp3',
   BGM_VOLUME: 0.5,
+  FEVER_BGM_FILE: 'assets/コールドフィッシュ.mp3', // フィーバータイム中だけ流すBGM
+  FEVER_BGM_VOLUME: 0.5,
 
   // ---- メニュー画面（Start / LevelSelect / Result）の共通背景 ----
   MENU_BACKGROUND_FILE: 'assets/背景.jpg',
@@ -54,9 +56,10 @@ Game.CONFIG = {
   DEPTH_SEA: -40,       // 建物より手前
   DEPTH_SUSPECT: -30,   // 建物・海より手前
 
-  BUILDING_Y: 350,               // 建物の表示位置(y座標、小さいほど上に表示される)
-  BUILDING_DISPLAY_WIDTH: 384,  // 建物画像の表示サイズ(px)
-  BUILDING_DISPLAY_HEIGHT: 480,
+  BUILDING_Y: 380,               // 建物の表示位置(y座標、小さいほど上に表示される)
+  BUILDING_X_OFFSET: -30,        // 建物の横位置オフセット(px、画面中央からの左右のずらし。負の値で左へ)
+  BUILDING_DISPLAY_WIDTH: 461,  // 建物画像の表示サイズ(px、元の384x480から1.2倍)
+  BUILDING_DISPLAY_HEIGHT: 576,
   BUILDING_SHAKE_AMPLITUDE: 6,   // 横揺れの振れ幅(px)
   BUILDING_SHAKE_INTERVAL: 70,   // 横揺れの更新間隔(ms、短いほど震えが細かくなる)
   BUILDING_SHAKE_START_DELAY: 3000, // カウントダウン開始から横揺れが始まるまでの遅延(ms)

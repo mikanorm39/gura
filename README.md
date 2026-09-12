@@ -78,6 +78,7 @@
 ## BGMについて
 
 `assets/ドリームパーク.mp3`（`Game.CONFIG.BGM_FILE`）をゲーム画面（`js/main.js`のGameScene）開始時にループ再生する。音量は`Game.CONFIG.BGM_VOLUME`（暫定値: 0.5）で調整可能。ゲーム画面を離れる（リザルトへ進む／ESCでタイトルへ戻る）と自動的に停止する。
+フィーバータイム中だけ`assets/コールドフィッシュ.mp3`（`Game.CONFIG.FEVER_BGM_FILE`）に切り替わる。通常BGMは`pause()`、フィーバーBGMは`stop()`で管理しており、フィーバー終了時に通常BGMを`resume()`して途中から再開する。切り替え自体は`GameScene`が持つ`scene.setFeverBgm(active)`を`js/ui.js`の`updateFever()`から呼び出して行う。
 
 ## メニュー画面の背景について
 
