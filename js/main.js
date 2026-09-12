@@ -3,6 +3,7 @@
 // 基本的にこのファイルは触らない。役割を追加・変更したい場合はチームに相談。
 //
 // 画面の流れ： Start → LevelSelect → Game → Result → Start or Game
+// （Game中はESCキーでいつでもStartへ戻れる）
 
 window.Game = window.Game || {};
 
@@ -13,6 +14,7 @@ class GameScene extends Phaser.Scene {
 
   preload() {
     Game.Effects.preload(this);
+    this.load.audio('bgm', Game.CONFIG.BGM_FILE);
   }
 
   create() {
@@ -22,6 +24,16 @@ class GameScene extends Phaser.Scene {
     Game.Indicator.create(this);
     Game.Effects.create(this);
     Game.UI.create(this);
+
+    // ゲーム開始と同時にBGMを再生し、この画面を離れるタイミングで停止する
+    const bgm = this.sound.add('bgm', { loop: true, volume: Game.CONFIG.BGM_VOLUME });
+    bgm.play();
+    this.events.once('shutdown', () => bgm.stop());
+
+    // ゲーム中にESCキーでタイトル画面へ戻れるようにする
+    this.input.keyboard.once('keydown-ESC', () => {
+      this.scene.start('Start');
+    });
   }
 
   update(time, delta) {
@@ -41,4 +53,13 @@ const config = {
   scene: [StartScene, LevelSelectScene, GameScene, ResultScene]
 };
 
-new Phaser.Game(config);
+// カスタムフォント（Chika）を読み込んでからゲームを開始する（未読み込みだと初回描画が既定フォントになるため）
+function startGame() {
+  new Phaser.Game(config);
+}
+
+if (document.fonts && document.fonts.load) {
+  document.fonts.load(`16px "Chika"`).then(startGame).catch(startGame);
+} else {
+  startGame();
+}

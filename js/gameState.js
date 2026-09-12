@@ -12,12 +12,21 @@ Game.CONFIG = {
 
   GAUGE_WIDTH: 600,
   GAUGE_HEIGHT: 40,
-  GAUGE_Y: 90,
+  GAUGE_Y: 520, // 画面下部に配置
 
   FRICTION: 0.985,             // 毎フレームの速度減衰率
   BOUNCE_DAMPING: -0.4,        // 端で跳ね返るときの反発係数
 
+  // ---- 表示テキストの共通フォント ----
+  FONT_FAMILY: "'Chika', sans-serif", // assets/fonts/chika-Regular.ttf（index.htmlで@font-face定義）
+  FONT_SCALE: 1.5,        // 全画面共通のフォントサイズ倍率
+  FONT_STROKE_COLOR: '#ffffff', // テキストの縁取り色
+
   SCORE_PER_SECOND: 20,            // 目標ゾーン内にいる間の1秒あたりスコア
+
+  // ---- ゲーム中のBGM ----
+  BGM_FILE: 'assets/ドリームパーク.mp3',
+  BGM_VOLUME: 0.5,
 
   // ---- メニュー画面（Start / LevelSelect / Result）の共通背景 ----
   MENU_BACKGROUND_FILE: 'assets/背景.jpg',
@@ -76,6 +85,24 @@ Game.CONFIG = {
 // 派生値（自動計算。直接編集しない）
 Game.CONFIG.GAUGE_X = (Game.CONFIG.GAME_WIDTH - Game.CONFIG.GAUGE_WIDTH) / 2;
 
+// 全テキスト共通のスタイル（フォント・サイズ倍率・縁取り）を組み立てるヘルパー。
+// baseFontSize(px)にFONT_SCALEを掛けたサイズへ統一し、extraで色などを上書きする。
+// 文字色がFONT_STROKE_COLOR（白）と同じ場合は縁取りが見えず不要なので付けない。
+Game.textStyle = function (baseFontSize, extra) {
+  const c = Game.CONFIG;
+  const fontSize = Math.round(baseFontSize * c.FONT_SCALE);
+  const color = (extra && extra.color) || '#ffffff';
+  const style = {
+    fontSize: `${fontSize}px`,
+    fontFamily: c.FONT_FAMILY
+  };
+  if (color.toLowerCase() !== c.FONT_STROKE_COLOR.toLowerCase()) {
+    style.stroke = c.FONT_STROKE_COLOR;
+    style.strokeThickness = Math.max(2, Math.round(fontSize / 9));
+  }
+  return Object.assign(style, extra);
+};
+
 // ---- レベル別パラメータ（暫定値・要調整） ----
 // レベル選択画面(levelSelectScene.js)で選んだ内容がGame.applyLevel()経由でGame.CONFIGへ上書きされる。
 Game.LEVELS = {
@@ -113,8 +140,8 @@ Game.LEVEL_LABELS = {
 };
 
 Game.LEVEL_DESCRIPTIONS = {
-  normal: '標準の難易度',
-  hard: '揺れが大きく、目標ゾーンも狭く・速く変化する高難易度'
+  normal: 'ひょうじゅんのなんいど',
+  hard: 'ゆれがおおきく、もくひょうゾーンもせまく・\nはやくへんかするこうなんいど'
 };
 
 // 選んだレベルのパラメータをGame.CONFIGへ反映する

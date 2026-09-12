@@ -10,6 +10,7 @@
 - 緑ゾーンに3秒連続で留まるとフィーバータイム発動（セイレーンが出現し、犯人が2体同時に落下）。8秒経過で自動終了
 - 画面の流れ：スタート画面（SPACEでスタート）→ レベル選択画面（↑↓で選択、SPACEで決定）→ ゲーム画面（60秒）→ リザルト画面（SPACEでもう一度／ESCでスタート画面へ）
 - リザルトでSPACEを押すと直前に選んだレベルのままリトライする。レベルを変えたい場合はESCでスタート画面へ戻り、選び直す
+- ゲーム画面中もESCキーでいつでもスタート画面へ戻れる（スコア等は破棄される）
 
 ## 動かし方
 
@@ -65,9 +66,19 @@
 
 画像が無い場合はPhaserの標準の欠損テクスチャ表示になる。落下の軌道は`Game.CONFIG.SUSPECT_TRAJECTORIES`に複数パターン（通常／左右に大きく飛ぶバージョンなど）を登録でき、`weight`の比率でランダムに選ばれる。回転量は`SUSPECT_SPIN_DEGREES`、サイズは`SUSPECT_DISPLAY_WIDTH/HEIGHT`で調整できる。
 
+## BGMについて
+
+`assets/ドリームパーク.mp3`（`Game.CONFIG.BGM_FILE`）をゲーム画面（`js/main.js`のGameScene）開始時にループ再生する。音量は`Game.CONFIG.BGM_VOLUME`（暫定値: 0.5）で調整可能。ゲーム画面を離れる（リザルトへ進む／ESCでタイトルへ戻る）と自動的に停止する。
+
 ## メニュー画面の背景について
 
 `assets/背景.jpg` を `js/startScene.js` / `js/levelSelectScene.js` / `js/resultScene.js` の3画面（ゲーム画面以外の全画面）でそれぞれ読み込み、画面全体に表示する。ゲーム画面（`js/effects.js`）は独自の空・海の背景を使うため対象外。
+
+## フォントについて
+
+`assets/fonts/chika-Regular.ttf` を全画面共通フォントとして使用する。`index.html`で`@font-face`定義（フォント名: `Chika`）し、`Game.CONFIG.FONT_FAMILY`（`js/gameState.js`）経由で各`add.text()`の`fontFamily`に指定する。`js/main.js`でフォント読み込み完了を待ってからPhaserゲームを起動するため、初回描画で既定フォントにフォールバックすることはない。
+画面内の表示テキストは漢字を使わず、ひらがな・カタカナのみで統一している。
+テキストのスタイルは`Game.textStyle(baseFontSize, extra)`（`js/gameState.js`）で組み立てる。`Game.CONFIG.FONT_SCALE`（暫定値: 1.5）を全テキストの基準サイズに掛け、`Game.CONFIG.FONT_STROKE_COLOR`（暫定値: 白）で縁取りを付ける。文字色が縁取り色と同じ（白文字）場合は縁取りが見えないため自動的に付けない。サイズ・縁取りを調整したい場合はこの2つの値を変更すればよい。
 
 ## フィーバータイムについて
 

@@ -23,35 +23,23 @@ class ResultScene extends Phaser.Scene {
     this.add.image(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2, 'menuBackground')
       .setDisplaySize(c.GAME_WIDTH, c.GAME_HEIGHT);
 
-    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 - 80, 'リザルト', {
-      fontSize: '36px',
-      color: '#ffffff'
-    }).setOrigin(0.5);
+    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 - 80, 'リザルト', Game.textStyle(36, { color: '#ffffff' }))
+      .setOrigin(0.5);
 
-    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 - 20, `Score: ${this.finalScore}`, {
-      fontSize: '28px',
-      color: '#ffff66'
-    }).setOrigin(0.5);
+    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 - 20, `スコア：${this.finalScore}`, Game.textStyle(28, { color: '#ffff66' }))
+      .setOrigin(0.5);
 
-    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 + 10, `Fever回数: ${this.feverCount}`, {
-      fontSize: '16px',
-      color: '#ff66aa'
-    }).setOrigin(0.5);
+    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 + 10, `フィーバーかいすう：${this.feverCount}`, Game.textStyle(16, { color: '#ff66aa' }))
+      .setOrigin(0.5);
 
-    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 + 35, `Level: ${Game.LEVEL_LABELS[Game.state.level]}`, {
-      fontSize: '16px',
-      color: '#88ccff'
-    }).setOrigin(0.5);
+    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 + 35, `レベル：${Game.LEVEL_LABELS[Game.state.level]}`, Game.textStyle(16, { color: '#88ccff' }))
+      .setOrigin(0.5);
 
-    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 + 65, 'SPACE：もう一度プレイ', {
-      fontSize: '18px',
-      color: '#aaaaaa'
-    }).setOrigin(0.5);
+    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 + 65, 'スペース：もういちどプレイ', Game.textStyle(18, { color: '#aaaaaa' }))
+      .setOrigin(0.5);
 
-    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 + 95, 'ESC：スタート画面へ', {
-      fontSize: '18px',
-      color: '#aaaaaa'
-    }).setOrigin(0.5);
+    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 + 95, 'エスケープ：スタートがめんへ', Game.textStyle(18, { color: '#aaaaaa' }))
+      .setOrigin(0.5);
 
     this.input.keyboard.once('keydown-SPACE', () => {
       this.scene.start('Game');

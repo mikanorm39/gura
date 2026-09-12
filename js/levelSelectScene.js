@@ -21,27 +21,19 @@ class LevelSelectScene extends Phaser.Scene {
     this.options = ['normal', 'hard'];
     this.selectedIndex = Math.max(this.options.indexOf(Game.state.level), 0);
 
-    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 - 120, 'レベル選択', {
-      fontSize: '36px',
-      color: '#ffffff'
-    }).setOrigin(0.5);
+    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 - 120, 'レベルせんたく', Game.textStyle(36, { color: '#ffffff' }))
+      .setOrigin(0.5);
 
     this.optionTexts = this.options.map((key, i) =>
-      this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 - 30 + i * 50, '', {
-        fontSize: '26px',
-        color: '#aaaaaa'
-      }).setOrigin(0.5)
+      this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 - 30 + i * 50, '', Game.textStyle(26, { color: '#aaaaaa' }))
+        .setOrigin(0.5)
     );
 
-    this.descText = this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 + 90, '', {
-      fontSize: '16px',
-      color: '#88ccff'
-    }).setOrigin(0.5);
+    this.descText = this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 + 90, '', Game.textStyle(16, { color: '#88ccff', align: 'center' }))
+      .setOrigin(0.5);
 
-    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 + 140, '↑↓：選択　SPACE：決定', {
-      fontSize: '14px',
-      color: '#aaaaaa'
-    }).setOrigin(0.5);
+    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 + 160, '↑↓：せんたく　スペース：けってい', Game.textStyle(14, { color: '#aaaaaa' }))
+      .setOrigin(0.5);
 
     this.refreshSelection();
 

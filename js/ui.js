@@ -14,32 +14,25 @@ Game.UI = {
   create(scene) {
     const c = Game.CONFIG;
 
-    this.scoreText = scene.add.text(20, 20, 'Score: 0', {
-      fontSize: '28px',
-      color: '#ffffff'
-    });
+    this.scoreText = scene.add.text(20, 20, 'スコア：0', Game.textStyle(28, { color: '#ffffff' }));
 
-    this.timeText = scene.add.text(c.GAME_WIDTH - 160, 20, `Time: ${c.TIME_LIMIT}`, {
-      fontSize: '28px',
-      color: '#ffffff'
-    });
+    this.timeText = scene.add.text(c.GAME_WIDTH - 20, 20, `タイム：${c.TIME_LIMIT}`, Game.textStyle(28, { color: '#ffffff' }))
+      .setOrigin(1, 0);
 
-    scene.add.text(20, 55, `Level: ${Game.LEVEL_LABELS[Game.state.level]}`, {
-      fontSize: '14px',
-      color: '#88ccff'
-    });
+    scene.add.text(20, 70, `レベル：${Game.LEVEL_LABELS[Game.state.level]}`, Game.textStyle(14, { color: '#88ccff' }));
+
+    scene.add.text(c.GAME_WIDTH - 20, 70, 'エスケープ：タイトルへ', Game.textStyle(14, { color: '#88ccff' }))
+      .setOrigin(1, 0);
 
     scene.add.text(
       c.GAME_WIDTH / 2,
-      30,
-      '← / → キーでインジケーターを緑ゾーンに保て！',
-      { fontSize: '14px', color: '#aaaaaa' }
+      110,
+      '← / → キーでインジケーターをみどりゾーンにたもて！',
+      Game.textStyle(14, { color: '#aaaaaa' })
     ).setOrigin(0.5);
 
-    this.feverText = scene.add.text(c.GAME_WIDTH / 2, 60, 'FEVER TIME!', {
-      fontSize: '20px',
-      color: '#ff66aa'
-    }).setOrigin(0.5).setVisible(false);
+    this.feverText = scene.add.text(c.GAME_WIDTH / 2, 150, 'フィーバータイム！', Game.textStyle(20, { color: '#ff66aa' }))
+      .setOrigin(0.5).setVisible(false);
 
     scene.time.addEvent({
       delay: 1000,
@@ -61,7 +54,7 @@ Game.UI = {
     const s = Game.state;
     if (s.gameOver) return;
     s.timeLeft -= 1;
-    this.timeText.setText(`Time: ${Math.max(s.timeLeft, 0)}`);
+    this.timeText.setText(`タイム：${Math.max(s.timeLeft, 0)}`);
     if (s.timeLeft <= 0) this.endGame(scene);
   },
 
@@ -101,7 +94,7 @@ Game.UI = {
 
     if (time - s.lastScoreTick > 100) {
       s.score += Math.round(c.SCORE_PER_SECOND * 0.1);
-      this.scoreText.setText(`Score: ${s.score}`);
+      this.scoreText.setText(`スコア：${s.score}`);
       s.lastScoreTick = time;
     }
 
