@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>バランスキープアクション（仮）</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #0a0a12;
+    overflow: hidden;
+    height: 100%;
+  }
+  #game-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+</style>
+</head>
+<body>
+<div id="game-container"></div>
+
+<!-- Phaser本体（CDN） -->
+<script src="https://cdn.jsdelivr.net/npm/phaser@3.70.0/dist/phaser.min.js"></script>
+
+<!-- 各担当モジュール（読み込み順が重要：gameStateが最初、mainが最後） -->
+<script src="js/gameState.js"></script>
+<script src="js/indicator.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/effects.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
