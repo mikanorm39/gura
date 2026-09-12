@@ -40,12 +40,23 @@ Game.Indicator = {
     scene.cursors = scene.input.keyboard.createCursorKeys();
   },
 
-  // 目標ゾーンの幅・位置が変わった際に見た目を追従させる（ui.jsの縮小処理から呼ばれる）
+  // 目標ゾーンの幅・位置が変わった際に見た目を追従させる（ui.jsの縮小・ランダム変化処理から呼ばれる）
   resizeTargetZone() {
     const c = Game.CONFIG;
     const s = Game.state;
     this.targetZone.setSize(s.targetWidth, c.GAUGE_HEIGHT);
     this.targetZone.x = s.targetX + s.targetWidth / 2;
+  },
+
+  // 目標ゾーンが急変したことを知らせる演出（ui.jsのランダム変化処理から呼ばれる）
+  flashTargetZone(scene) {
+    scene.tweens.add({
+      targets: this.targetZone,
+      alpha: { from: 1, to: 0.15 },
+      duration: 100,
+      yoyo: true,
+      repeat: 3
+    });
   },
 
   update(scene, time, delta) {

@@ -19,15 +19,17 @@ Game.CONFIG = {
   TARGET_SHRINK_RATIO: 0.75,     // 縮小時に幅へ掛ける倍率
   TARGET_MIN_WIDTH: 60,          // 目標ゾーンの最小幅(px)
 
-  MAX_SPEED: 260,              // インジケーターの最大速度(px/秒)
-  DRIFT_JITTER: 90,            // ランダム変動の強さ(加速度)
-  DRIFT_CHANGE_INTERVAL: 1200, // ランダム変動を更新する間隔(ms)
-  PLAYER_FORCE: 900,           // プレイヤー入力による加速度
+  MAX_SPEED: 420,              // インジケーターの最大速度(px/秒)
+  DRIFT_JITTER: 220,           // ランダム変動の強さ(加速度)
+  DRIFT_CHANGE_INTERVAL: 700,  // ランダム変動を更新する間隔(ms)
+  PLAYER_FORCE: 1300,          // プレイヤー入力による加速度
   FRICTION: 0.985,             // 毎フレームの速度減衰率
   BOUNCE_DAMPING: -0.4,        // 端で跳ね返るときの反発係数
 
   SCORE_PER_SECOND: 20,            // 目標ゾーン内にいる間の1秒あたりスコア
-  BUILDING_PULSE_INTERVAL: 300     // ゾーン内にいる間の演出発生間隔(ms)
+  BUILDING_PULSE_INTERVAL: 300,    // ゾーン内にいる間の演出発生間隔(ms)
+
+  RANDOM_SHIFT_DELAY: 30000        // 開始からこの時間経過後、一度だけ目標ゾーンの位置をランダム変更(ms)
 };
 
 // 派生値（自動計算。直接編集しない）

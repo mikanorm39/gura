@@ -40,6 +40,9 @@ Game.UI = {
       loop: true,
       callback: () => this.shrinkZone()
     });
+
+    // 開始から一定時間後、ゲーム中に一度だけ目標ゾーンの位置をランダムに変更する
+    scene.time.delayedCall(c.RANDOM_SHIFT_DELAY, () => this.randomShiftZone(scene));
   },
 
   tickTimer(scene) {
@@ -59,6 +62,17 @@ Game.UI = {
     s.targetWidth = Math.max(s.targetWidth * c.TARGET_SHRINK_RATIO, c.TARGET_MIN_WIDTH);
     s.targetX = c.GAUGE_X + (c.GAUGE_WIDTH - s.targetWidth) / 2;
     Game.Indicator.resizeTargetZone();
+  },
+
+  // 開始から30秒後などに一度だけ発生する、目標ゾーン位置のランダム変更
+  randomShiftZone(scene) {
+    const c = Game.CONFIG;
+    const s = Game.state;
+    if (s.gameOver) return;
+
+    s.targetX = Phaser.Math.FloatBetween(0, c.GAUGE_WIDTH - s.targetWidth);
+    Game.Indicator.resizeTargetZone();
+    Game.Indicator.flashTargetZone(scene);
   },
 
   update(scene, time, delta) {
