@@ -29,7 +29,13 @@ Game.CONFIG = {
   SCORE_PER_SECOND: 20,            // 目標ゾーン内にいる間の1秒あたりスコア
   BUILDING_PULSE_INTERVAL: 300,    // ゾーン内にいる間の演出発生間隔(ms)
 
-  RANDOM_SHIFT_DELAY: 30000        // 開始からこの時間経過後、一度だけ目標ゾーンの位置をランダム変更(ms)
+  RANDOM_SHIFT_DELAY: 30000,       // 開始からこの時間経過後、一度だけ目標ゾーンの位置をランダム変更(ms)
+
+  BUILDING_DISPLAY_WIDTH: 160,  // 建物画像の表示サイズ(px)
+  BUILDING_DISPLAY_HEIGHT: 200,
+  BUILDING_IMAGE_KEYS: ['building1', 'building2', 'building3'], // スコアに応じて切り替わる建物画像（assets/building_1〜3.png に対応）
+  BUILDING_IMAGE_FILES: ['assets/building_1.png', 'assets/building_2.png', 'assets/building_3.png'],
+  BUILDING_SCORE_THRESHOLDS: [400, 700] // このスコアに到達するとそれぞれ2枚目・3枚目に切り替わる（暫定値・要調整）
 };
 
 // 派生値（自動計算。直接編集しない）
@@ -51,6 +57,7 @@ Game.resetState = function () {
   Game.state.targetX = c.GAUGE_X + (c.GAUGE_WIDTH - Game.state.targetWidth) / 2;
   Game.state.score = 0;
   Game.state.timeLeft = c.TIME_LIMIT;
+  Game.state.buildingStage = 0; // 現在表示中の建物画像のインデックス(0〜2)
   Game.state.gameOver = false;
   Game.state.inZone = false;
 };

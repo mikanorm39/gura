@@ -11,6 +11,10 @@ class GameScene extends Phaser.Scene {
     super('Game');
   }
 
+  preload() {
+    Game.Effects.preload(this);
+  }
+
   create() {
     Game.resetState();
     this.cameras.main.setBackgroundColor('#0a0a12');
@@ -24,6 +28,7 @@ class GameScene extends Phaser.Scene {
     if (Game.state.gameOver) return;
     Game.Indicator.update(this, time, delta);
     Game.UI.update(this, time, delta);
+    Game.Effects.update(this);
   }
 }
 
