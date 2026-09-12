@@ -1,5 +1,5 @@
 // startScene.js 【B担当】
-// スタート画面。SPACEキーでゲーム画面(Game)へ遷移する。
+// スタート画面。SPACEキーでレベル選択画面(LevelSelect)へ遷移する。
 
 window.Game = window.Game || {};
 
@@ -36,7 +36,7 @@ class StartScene extends Phaser.Scene {
     });
 
     this.input.keyboard.once('keydown-SPACE', () => {
-      this.scene.start('Game');
+      this.scene.start('LevelSelect');
     });
   }
 }

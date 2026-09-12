@@ -1,8 +1,8 @@
 // main.js
-// 各モジュール（indicator.js / ui.js / effects.js）と各画面（startScene.js / resultScene.js）を繋ぐ司令塔。
+// 各モジュール（indicator.js / ui.js / effects.js）と各画面（startScene.js / levelSelectScene.js / resultScene.js）を繋ぐ司令塔。
 // 基本的にこのファイルは触らない。役割を追加・変更したい場合はチームに相談。
 //
-// 画面の流れ： Start → Game → Result → Start or Game
+// 画面の流れ： Start → LevelSelect → Game → Result → Start or Game
 
 window.Game = window.Game || {};
 
@@ -38,7 +38,7 @@ const config = {
   height: Game.CONFIG.GAME_HEIGHT,
   parent: 'game-container',
   backgroundColor: '#0a0a12',
-  scene: [StartScene, GameScene, ResultScene]
+  scene: [StartScene, LevelSelectScene, GameScene, ResultScene]
 };
 
 new Phaser.Game(config);

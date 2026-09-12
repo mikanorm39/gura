@@ -22,6 +22,11 @@ Game.UI = {
       color: '#ffffff'
     });
 
+    scene.add.text(20, 55, `Level: ${Game.LEVEL_LABELS[Game.state.level]}`, {
+      fontSize: '14px',
+      color: '#88ccff'
+    });
+
     scene.add.text(
       c.GAME_WIDTH / 2,
       30,

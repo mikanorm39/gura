@@ -26,6 +26,11 @@ class ResultScene extends Phaser.Scene {
       color: '#ffff66'
     }).setOrigin(0.5);
 
+    this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 + 15, `Level: ${Game.LEVEL_LABELS[Game.state.level]}`, {
+      fontSize: '16px',
+      color: '#88ccff'
+    }).setOrigin(0.5);
+
     this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 + 50, 'SPACE：もう一度プレイ', {
       fontSize: '18px',
       color: '#aaaaaa'
