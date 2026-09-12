@@ -8,9 +8,15 @@ class LevelSelectScene extends Phaser.Scene {
     super('LevelSelect');
   }
 
+  preload() {
+    this.load.image('menuBackground', Game.CONFIG.MENU_BACKGROUND_FILE);
+  }
+
   create() {
     const c = Game.CONFIG;
     this.cameras.main.setBackgroundColor('#0a0a12');
+    this.add.image(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2, 'menuBackground')
+      .setDisplaySize(c.GAME_WIDTH, c.GAME_HEIGHT);
 
     this.options = ['normal', 'hard'];
     this.selectedIndex = Math.max(this.options.indexOf(Game.state.level), 0);

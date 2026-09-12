@@ -8,9 +8,15 @@ class StartScene extends Phaser.Scene {
     super('Start');
   }
 
+  preload() {
+    this.load.image('menuBackground', Game.CONFIG.MENU_BACKGROUND_FILE);
+  }
+
   create() {
     const c = Game.CONFIG;
     this.cameras.main.setBackgroundColor('#0a0a12');
+    this.add.image(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2, 'menuBackground')
+      .setDisplaySize(c.GAME_WIDTH, c.GAME_HEIGHT);
 
     this.add.text(c.GAME_WIDTH / 2, c.GAME_HEIGHT / 2 - 60, 'バランスキープアクション', {
       fontSize: '36px',

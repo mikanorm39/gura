@@ -1,7 +1,9 @@
 // ui.js 【B担当】
-// タイマー・スコア表示・目標ゾーン範囲判定を担当。
+// タイマー・スコア表示・目標ゾーン範囲判定・フィーバータイム管理を担当。
 // 参照する共有状態は Game.state / Game.CONFIG（gameState.js）。
-// スコア加算時は Game.Effects.pulse() を呼んで演出（C担当）に通知する。
+// スコア加算時は Game.Effects.spawnSuspect() を呼んで演出（C担当）に通知する。
+// 目標ゾーンに連続でFEVER_TRIGGER_DURATION留まるとフィーバー開始、
+// Game.Effects.setFeverVisual() でセイレーンの表示切り替えを依頼する。
 
 window.Game = window.Game || {};
 
@@ -33,6 +35,11 @@ Game.UI = {
       '← / → キーでインジケーターを緑ゾーンに保て！',
       { fontSize: '14px', color: '#aaaaaa' }
     ).setOrigin(0.5);
+
+    this.feverText = scene.add.text(c.GAME_WIDTH / 2, 60, 'FEVER TIME!', {
+      fontSize: '20px',
+      color: '#ff66aa'
+    }).setOrigin(0.5).setVisible(false);
 
     scene.time.addEvent({
       delay: 1000,
@@ -88,6 +95,8 @@ Game.UI = {
     const indicatorX = c.GAUGE_X + s.indicatorPos;
     s.inZone = indicatorX >= s.targetX && indicatorX <= s.targetX + s.targetWidth;
 
+    this.updateFever(scene, time, delta);
+
     if (!s.inZone) return;
 
     if (time - s.lastScoreTick > 100) {
@@ -96,14 +105,35 @@ Game.UI = {
       s.lastScoreTick = time;
     }
 
-    if (time - s.lastPulse > c.BUILDING_PULSE_INTERVAL) {
-      Game.Effects.pulse(scene);
-      s.lastPulse = time;
+    if (time - s.lastSuspectDrop > c.SUSPECT_DROP_INTERVAL) {
+      Game.Effects.spawnSuspect(scene);
+      s.lastSuspectDrop = time;
+    }
+  },
+
+  // 目標ゾーンへの連続滞在時間を追跡し、一定時間でフィーバータイムを開始/終了する
+  updateFever(scene, time, delta) {
+    const c = Game.CONFIG;
+    const s = Game.state;
+
+    s.inZoneStreak = s.inZone ? s.inZoneStreak + delta : 0;
+
+    if (!s.feverActive && s.inZoneStreak >= c.FEVER_TRIGGER_DURATION) {
+      s.feverActive = true;
+      s.feverEndsAt = time + c.FEVER_DURATION;
+      s.feverCount += 1;
+      this.feverText.setVisible(true);
+      Game.Effects.setFeverVisual(scene, true);
+    } else if (s.feverActive && time >= s.feverEndsAt) {
+      s.feverActive = false;
+      s.inZoneStreak = 0;
+      this.feverText.setVisible(false);
+      Game.Effects.setFeverVisual(scene, false);
     }
   },
 
   endGame(scene) {
     Game.state.gameOver = true;
-    scene.scene.start('Result', { score: Game.state.score });
+    scene.scene.start('Result', { score: Game.state.score, feverCount: Game.state.feverCount });
   }
 };
